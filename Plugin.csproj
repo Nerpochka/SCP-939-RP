@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<AssemblyName>Patch939</AssemblyName>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>References\Assembly-CSharp.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Pooling">
+			<HintPath>References\Pooling.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="0Harmony">
+			<HintPath>References\0Harmony.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="CommandSystem.Core">
+			<HintPath>References\CommandSystem.Core.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>References\UnityEngine.CoreModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.PhysicsModule">
+			<HintPath>References\UnityEngine.PhysicsModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Exiled.API">
+			<HintPath>References\Exiled.API.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Exiled.Loader">
+			<HintPath>References\Exiled.Loader.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Exiled.Events">
+			<HintPath>References\Exiled.Events.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Mirror">
+			<HintPath>References\Mirror.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="LabApi">
+			<HintPath>References\LabApi.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="NorthwoodLib">
+			<HintPath>References\NorthwoodLib.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="MEC">
+			<HintPath>References\MEC.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuild">
+		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(UserProfile)\AppData\Roaming\EXILED\Plugins\" />
+	</Target>
+</Project>
