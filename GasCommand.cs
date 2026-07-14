@@ -18,18 +18,18 @@ namespace AmnesiaPatch939
     {
         public string Command => "gas";
         public string[] Aliases => new string[] { "cloud" };
-        public string Description => "Кастомная абилка газа для SCP-939";
+        public string Description => "абилка газа SCP-939";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
-            if (player == null) { response = "Вы должны быть игроком!"; return false; }
-            if (player.Role.Type != RoleTypeId.Scp939) { response = "Доступно только для SCP-939!"; return false; }
+            if (player == null) { response = "Вы не объект"; return false; }
+            if (player.Role.Type != RoleTypeId.Scp939) { response = "только SCP-939"; return false; }
 
             if (Plugin.Instance.Cooldowns.TryGetValue(player.UserId, out float expireTime) && Time.time < expireTime)
             {
                 int timeLeft = Mathf.CeilToInt(expireTime - Time.time);
-                player.ShowHint($"<color=red>Газ перезаряжается! Осталось: {timeLeft} сек.</color>", 3f);
+                player.ShowHint($"<color=red> Газ перезаряжается! Осталось: {timeLeft} сек.</color>", 3f);
                 response = $"Кулдаун {timeLeft} сек.";
                 return false;
             }
@@ -39,13 +39,13 @@ namespace AmnesiaPatch939
                 float holdTime = Time.time - startTime;
                 Plugin.Instance.ActiveCasts.Remove(player.UserId);
                 Plugin.Instance.PendingRelease[player.UserId] = holdTime;
-                response = "Газ выпускается досрочно.";
+                response = "Вы выпустили.";
                 return true;
             }
 
             Plugin.Instance.ActiveCasts[player.UserId] = Time.time;
             Plugin.Instance.PendingStart.Add(player.UserId);
-            response = "Зарядка газа началась.";
+            response = "Зарядка началась.";
             return true;
         }
     }
@@ -53,8 +53,6 @@ namespace AmnesiaPatch939
     public class GasServerHandler : MonoBehaviour
     {
         private readonly Dictionary<string, float> _chargeStart = new Dictionary<string, float>();
-
-        // Вызывается каждый кадр движком Unity автоматически
         private void Update()
         {
             if (Plugin.Instance == null) return;
@@ -72,7 +70,7 @@ namespace AmnesiaPatch939
                 player.EnableEffect(EffectType.Disabled, 4f); // Даем легкое замедление/стопор на каст
             }
 
-            // Накопление (Шкала в UI)
+            // Накопление (Шкала UI)
             foreach (var kvp in new Dictionary<string, float>(_chargeStart))
             {
                 string userId = kvp.Key;
@@ -99,7 +97,7 @@ namespace AmnesiaPatch939
                 }
             }
 
-            // Физический спавн облака без лишних анимаций собаки
+            // Физический спавн облака
             foreach (var kvp in new Dictionary<string, float>(Plugin.Instance.PendingRelease))
             {
                 Plugin.Instance.PendingRelease.Remove(kvp.Key);
@@ -147,7 +145,7 @@ namespace AmnesiaPatch939
 
                 int percent = Mathf.RoundToInt(progress * 100f);
                 string sizeLabel = progress < 0.5f ? "<color=white>небольшое</color>" : "<color=white>большое</color>";
-                player.ShowHint($"<color=white>Выпущено {sizeLabel} облако газа! ({percent}%)</color>", 3f);
+                player.ShowHint($"<color=white>Выпущено {sizeLabel} облако, ({percent}%)</color>", 3f);
 
                 Plugin.Instance.Cooldowns[player.UserId] = now + Plugin.Instance.Config.CustomCloudCooldown;
             }

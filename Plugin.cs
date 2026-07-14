@@ -31,52 +31,10 @@ namespace AmnesiaPatch939
 
             // Статичный ID
             _harmony = new Harmony("amnesiapatch939");
-
-            try
-            {
-                _harmony.PatchAll();
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"[AmnesiaPatch939] Ошибка при применении патчей: {ex}");
-            }
-
-            // проверка патчей
-            VerifyPatches();
+            _harmony.PatchAll();
 
             Log.Info("AmnesiaPatch939 запущен");
             base.OnEnabled();
-        }
-
-        private void VerifyPatches()
-        {
-            var expected = new (Type type, string method)[]
-            {
-                (typeof(PlayerRoles.PlayableScps.Scp939.Ripples.SurfaceRippleTrigger), "LateUpdate"),
-                (typeof(PlayerRoles.PlayableScps.Scp939.Scp939AmnesticCloudInstance), "OnEnter"),
-                (typeof(PlayerRoles.PlayableScps.Scp939.Ripples.SpawnableRipplesTrigger), "OnSpawned"),
-            };
-
-            var patchedMethods = new HashSet<System.Reflection.MethodBase>(Harmony.GetAllPatchedMethods());
-
-            foreach (var (type, methodName) in expected)
-            {
-                var method = AccessTools.Method(type, methodName);
-                if (method == null)
-                {
-                    Log.Error($"[AmnesiaPatch939] Метод {type.FullName}.{methodName} не найден — возможно, изменилась сигнатура/имя в текущей версии игры.");
-                    continue;
-                }
-
-                if (patchedMethods.Contains(method))
-                {
-                    Log.Info($"[AmnesiaPatch939] Патч успешно применён: {type.Name}.{methodName}");
-                }
-                else
-                {
-                    Log.Warn($"[AmnesiaPatch939] Патч НЕ применён: {type.Name}.{methodName} (метод найден, но не в списке пропатченных).");
-                }
-            }
         }
 
         public override void OnDisabled()
