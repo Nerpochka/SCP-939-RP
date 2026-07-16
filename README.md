@@ -1,22 +1,33 @@
-# 💎 Патч создан для **SCP:SL RP-серверов**.
-Возможности плагина:
-1. Плагин убирает рандомные "blips", которые получает scp-939 на своем экране, имитируя "точки интереса", вызывая серию кружков с уровнем сигнала до 3.
-2. Плагин позволяет: Хаосу/Мог не получать эффект облака амнезиака и видеть scp-939, находясь в этом облаке. объясняется противогазом на модельке.
-3. Плагин убирает рандомные "blips", которые получает scp-939 на своем экране, имитируя "сердцебиение", вызывая 1 кружок с уровнем сигнала 4.
-4. Плагин добавляет команду: .gas , которая в свою очередь позволяет использовать амнезиак везде, где захочет scp-939.
-5. Плагин добавляет возможность выломать двери, на которые scp-939 решит прыгнуть.
+# 💎 Patch scp-939 for **SCP:SL RP-server**.
+📦 Features:
 
+1. Added a custom Sound Trap for SCP-939 (hardcoded medkit model)).
+* They are in the `HCZ Armory` by default (2 items).
+---
+2. Holding "C" (default) and jumping at a door as SCP-939 gives a chance to smash it.
+* ⚙️ If you want to change the chance, modify "30" to another number in the DoorCrash.cs
+```csharp
+if (UnityEngine.Random.Range(0, 100) >= 30) return;
+``` 
+---
+3. Allows SCP-939 to deploy the amnesiac cloud anywhere via `.gas` console command.
+---
+4. Disables broken and immersion-breaking blips (heartbeat and POI markers)
+---
+5. Chaos and MTF are **immune** to the amnesiac cloud.
 ---
 
-# 🛠️ Не все файлы находятся в этом архиве. 
+# 🛠️ Not all files in the archive. 
 
-Перед компилированием убедитесь, что файлы находятся в /references
+Add files in /references:
 
 * 0Harmony.dll
 * Assembly-CSharp.dll
 * CommandSystem.Core.dll
+* Assembly-CSharp-firstpass.dll
 * Exiled.API.dll
 * Exiled.Events.dll
+* Exiled.CustomItems.dll
 * Exiled.Loader.dll
 * LabApi.dll
 * Mirror.dll
@@ -24,41 +35,12 @@
 * Pooling.dll
 * UnityEngine.CoreModule.dll
 * UnityEngine.PhysicsModule.dll
-
+* UnityEngine.JSONSerializeModule.dll
 ---
-# Процесс компиляции
-1. запустить Plugin.sln
-2. Shift + ctrl + b
-3. файл автоматически отправится по пути: %appdata%\Roaming\EXILED\Plugins
-* Файл так же можно забрать по пути: \Patch939\bin\Debug
-
----
-# Как это работает в игре и что я имею в виду?
-На этом этапе я прямо скажу, ничего важного я не убрал, все работает прекрасно.
----
-То, что я назвал **сердцебиением**, это механика оставленная разработчиками, которая даёт blip (красная точка) на игрока, которая рядом с собакой.
-
-* дело в том, что кружочек появляется не из-за звука, он работает как сканирование местности "где сейчас цели", генерируется сам.
----
-То, что я назвал **точкой интереса**, это механика, которая даёт blip на игрока, если тот издавал звук и 939 не убила жертву.
-
-* дело в том, что кружочек появляется не из-за звука, он работает как напоминание "тут есть цель", генерируется сам.
----
-Противогаз есть на модельках MTF/Chaos, в плагине предусмотрено, что эти две подфракции получают полную "неуязвимость" к эффекту облака 939.
-* комментария нет.
----
-Команда .gas позволяет выпустить облако амнезиака в intercom и прочие кастомные комнаты.
-* в игре стоит ограничение связанное с высотой двери, прилегающей к этой комнате.
----
-Если scp-939 зажмёт клавишу "C" (по умолчанию), после чего прыгнет на дверь, есть шанс ее выломать.
-* ⚙️ чтобы изменить шанс, измените "30" на любое другое число в файле DoorCrash.cs
-```csharp
-if (UnityEngine.Random.Range(0, 100) >= 30) return;
-```
----
-* Плагин создан для RP-серверов,
-* Версия Exilied: v9.14.2
+# 🌟 credits
+* Special thanks to **denissunstrike** for providing the sound trap model. [Discord]
+* Plugin has been created for RP-servers,
+* Version Exilied: v9.14.2
 * Discord: SairwX04410
-
 
 

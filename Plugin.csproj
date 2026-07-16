@@ -60,12 +60,19 @@
 			<HintPath>References\NorthwoodLib.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<Reference Include="MEC">
-			<HintPath>References\MEC.dll</HintPath>
+		<Reference Include="Exiled.CustomItems">
+			<HintPath>References\Exiled.CustomItems.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Assembly-CSharp-firstpass">
+			<HintPath>References\Assembly-CSharp-firstpass.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.JSONSerializeModule.dll">
+			<HintPath>References\UnityEngine.JSONSerializeModule.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 	</ItemGroup>
-
 	<Target Name="PostBuild" AfterTargets="PostBuild">
 		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(UserProfile)\AppData\Roaming\EXILED\Plugins\" />
 	</Target>

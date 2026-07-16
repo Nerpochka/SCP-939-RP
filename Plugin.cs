@@ -16,6 +16,7 @@ namespace AmnesiaPatch939
         public static Plugin Instance { get; private set; }
         private Harmony _harmony;
         private GameObject _handlerObject;
+        private SoundTrapItem _soundTrap;
 
         public Dictionary<string, float> ActiveCasts { get; set; } = new Dictionary<string, float>();
         public Dictionary<string, float> Cooldowns { get; set; } = new Dictionary<string, float>();
@@ -29,9 +30,14 @@ namespace AmnesiaPatch939
             _handlerObject.AddComponent<GasServerHandler>();
             UnityEngine.Object.DontDestroyOnLoad(_handlerObject);
 
-            // Статичный ID
             _harmony = new Harmony("amnesiapatch939");
             _harmony.PatchAll();
+
+            _soundTrap = new SoundTrapItem();
+            _soundTrap.Init();
+
+            // Теперь этот обработчик существует и код скомпилируется:
+            Exiled.Events.Handlers.Server.RoundStarted += OnRoundStartedSpawn;
 
             Log.Info("AmnesiaPatch939 запущен");
             base.OnEnabled();
@@ -39,6 +45,10 @@ namespace AmnesiaPatch939
 
         public override void OnDisabled()
         {
+            Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStartedSpawn;
+            _soundTrap?.Destroy();
+            _soundTrap = null;
+
             if (_handlerObject != null)
             {
                 UnityEngine.Object.Destroy(_handlerObject);
@@ -55,6 +65,12 @@ namespace AmnesiaPatch939
 
             Instance = null;
             base.OnDisabled();
+        }
+
+        // Вставляем приватный метод, о котором говорил Клод:
+        private void OnRoundStartedSpawn()
+        {
+            _soundTrap?.SpawnAll();
         }
     }
 
